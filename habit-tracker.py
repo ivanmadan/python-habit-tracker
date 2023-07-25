@@ -80,9 +80,13 @@ class HabitTracker(QMainWindow):
         self.remove_habit_button = QPushButton("Remove Habit")
         self.remove_habit_button.clicked.connect(self.remove_habit)
 
+        self.view_habit_button = QPushButton("View Habit")
+        self.view_habit_button.clicked.connect(self.view_habit_calendar)
+
         self.layout = QVBoxLayout()
         self.layout.addWidget(self.add_habit_button)
         self.layout.addWidget(self.remove_habit_button)
+        self.layout.addWidget(self.view_habit_button)
         self.layout.addWidget(self.table_widget)
 
         self.main_widget = QWidget()
@@ -183,6 +187,12 @@ class HabitTracker(QMainWindow):
     def closeEvent(self, event):
         self.save_habits()
         event.accept()
+
+    def view_habit_calendar(self):  
+        habit, ok = QInputDialog.getItem(self, 'View habit', 'Select a habit to view:', [self.table_widget.horizontalHeaderItem(i).text() for i in range(self.table_widget.columnCount())]) 
+        if ok:
+            print(f"Viewing calendar for habit: {habit}") 
+            # TODO: Implement the calendar view for the selected habit.
 
 app = QApplication(sys.argv)
 win = HabitTracker()
